@@ -4,6 +4,7 @@
 }
 
 :root {
+  color-scheme: light;
   --page-start: #f7f5ef;
   --page-end: #e8f1ed;
   --surface: #fffdf8;
@@ -20,6 +21,26 @@
   --danger-wash: #f8e7e3;
   --focus-ring: #8bc9bc;
   --shadow: rgba(31, 54, 47, 0.13);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-start: #172321;
+  --page-end: #20312e;
+  --surface: #1d2b29;
+  --surface-soft: #273936;
+  --surface-hover: #304641;
+  --text: #e8f3ef;
+  --text-muted: #a5b7b2;
+  --border: #435a54;
+  --accent: #68c7b4;
+  --accent-hover: #86d8c7;
+  --accent-wash: #2a4d47;
+  --on-accent: #102421;
+  --danger: #f08b7d;
+  --danger-wash: #4c2e2b;
+  --focus-ring: #7bd9c7;
+  --shadow: rgba(0, 0, 0, 0.35);
 }
 
 body {
@@ -51,6 +72,17 @@ body {
   margin-bottom: 28px;
 }
 
+.title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title-copy {
+  min-width: 0;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: var(--accent);
@@ -78,17 +110,47 @@ h2 {
   line-height: 1.4;
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 8px 12px;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--focus-ring);
+}
+
+.theme-icon {
+  line-height: 1;
+}
+
 /* 新增待辦表單 */
 .todo-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 12px;
 }
 
 .todo-input,
 .add-button,
-.delete-button {
+.delete-button,
+.filter-button {
   font: inherit;
 }
 
@@ -128,6 +190,37 @@ h2 {
 
 .add-button:active {
   transform: translateY(1px);
+}
+
+/* 清單篩選 */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.filter-button {
+  min-height: 40px;
+  padding: 8px 10px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.filter-button:hover {
+  color: var(--text);
+  border-color: var(--focus-ring);
+}
+
+.filter-button.is-active {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 /* 待辦清單 */

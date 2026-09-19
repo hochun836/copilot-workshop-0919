@@ -9,8 +9,16 @@
 <body>
   <main class="app" aria-labelledby="page-title">
     <header class="app-header">
-      <p class="eyebrow">TODAY'S FOCUS</p>
-      <h1 id="page-title">我的待辦清單</h1>
+      <div class="title-row">
+        <div class="title-copy">
+          <p class="eyebrow">TODAY'S FOCUS</p>
+          <h1 id="page-title">我的待辦清單</h1>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+          <span id="theme-icon" class="theme-icon" aria-hidden="true">🌙</span>
+          <span id="theme-label">深色模式</span>
+        </button>
+      </div>
     </header>
 
     <form id="todo-form" class="todo-form" autocomplete="off">
@@ -25,6 +33,12 @@
       >
       <button class="add-button" type="submit">新增</button>
     </form>
+
+    <div class="filters" role="group" aria-label="篩選待辦事項">
+      <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button class="filter-button" type="button" data-filter="active" aria-pressed="false">未完成</button>
+      <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">已完成</button>
+    </div>
 
     <section class="todo-section" aria-labelledby="list-title">
       <div class="section-heading">
