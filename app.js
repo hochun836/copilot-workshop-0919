@@ -1,6 +1,8 @@
 // 待辦清單的資料會保存在瀏覽器的 localStorage。
 const STORAGE_KEY = 'offline-todos';
 const THEME_STORAGE_KEY = 'offline-theme';
+const FILTER_STORAGE_KEY = 'offline-filter';
+const FILTER_VALUES = ['all', 'active', 'completed'];
 
 const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
@@ -67,6 +69,26 @@ function saveTheme(theme) {
   }
 }
 
+// 取得使用者儲存過的篩選條件,無效值一律回退成全部。
+function loadSavedFilter() {
+  try {
+    const savedFilter = localStorage.getItem(FILTER_STORAGE_KEY);
+    return FILTER_VALUES.includes(savedFilter) ? savedFilter : 'all';
+  } catch (error) {
+    console.warn('讀取篩選條件失敗,將使用全部。', error);
+    return 'all';
+  }
+}
+
+// 把使用者選擇的篩選條件寫入 localStorage。
+function saveFilter(filter) {
+  try {
+    localStorage.setItem(FILTER_STORAGE_KEY, filter);
+  } catch (error) {
+    console.warn('儲存篩選條件失敗。', error);
+  }
+}
+
 // 套用主題,同時更新切換按鈕的圖示、文字與無障礙狀態。
 function applyTheme(theme) {
   const isDark = theme === 'dark';
@@ -124,6 +146,29 @@ function getEmptyMessage() {
   }
 
   return '目前沒有已完成的待辦事項。';
+}
+
+// 依照目前篩選條件更新三個按鈕的選中狀態。
+function updateFilterButtons() {
+  filterButtons.forEach((button) => {
+    const isActive = button.dataset.filter === currentFilter;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+// 設定篩選條件,遇到不合法值時安全回退成全部。
+function setFilter(filter) {
+  currentFilter = FILTER_VALUES.includes(filter) ? filter : 'all';
+  updateFilterButtons();
+  saveFilter(currentFilter);
+  render();
+}
+
+// 初始化篩選條件與按鈕狀態。
+function initFilter() {
+  currentFilter = loadSavedFilter();
+  updateFilterButtons();
 }
 
 // 依照目前資料重新繪製清單與未完成數量。
@@ -222,17 +267,10 @@ themeToggle.addEventListener('click', () => {
 // 切換清單篩選條件並更新按鈕狀態。
 filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
-    currentFilter = button.dataset.filter;
-
-    filterButtons.forEach((filterButton) => {
-      const isActive = filterButton === button;
-      filterButton.classList.toggle('is-active', isActive);
-      filterButton.setAttribute('aria-pressed', String(isActive));
-    });
-
-    render();
+    setFilter(button.dataset.filter);
   });
 });
 
 initTheme();
+initFilter();
 render();
