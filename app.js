@@ -120,10 +120,10 @@ function getEmptyMessage() {
   }
 
   if (currentFilter === 'active') {
-    return '目前沒有未完成的待辦事項。';
+    return '目前沒有符合篩選條件的未完成事項,項目並未被刪除。';
   }
 
-  return '目前沒有已完成的待辦事項。';
+  return '目前沒有符合篩選條件的已完成事項,項目並未被刪除。';
 }
 
 // 依照目前資料重新繪製清單與未完成數量。
